@@ -93,33 +93,37 @@
         let dx = tileSize;
         let dy = 0;
 
-        function drawSnake() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+       function drawSnake() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            ctx.fillStyle = "#FF0000";
-            ctx.fillRect(food.x * tileSize, food.y * tileSize, tileSize, tileSize);
+    ctx.fillStyle = "#FF0000"; // Cor para a comida da cobrinha
+    ctx.fillRect(food.x * tileSize, food.y * tileSize, tileSize, tileSize);
 
-            snake.forEach((segment, index) => {
-                ctx.fillStyle = "#008000";
-                if (index === 0) {
-                    ctx.beginPath();
-                    ctx.arc(segment.x * tileSize + tileSize / 2, segment.y * tileSize + tileSize / 2, tileSize / 2, 0, 2 * Math.PI);
-                    ctx.fill();
+    snake.forEach((segment, index) => {
+        ctx.fillStyle = "#008000"; // Cor para a cobrinha
 
-                    ctx.fillStyle = "#FFFFFF";
-                    ctx.beginPath();
-                    ctx.arc(segment.x * tileSize + tileSize / 3, segment.y * tileSize + tileSize / 3, tileSize / 8, 0, 2 * Math.PI);
-                    ctx.fill();
-                    ctx.beginPath();
-                    ctx.arc(segment.x * tileSize + 2 * tileSize / 3, segment.y * tileSize + tileSize / 3, tileSize / 8, 0, 2 * Math.PI);
-                    ctx.fill();
-                } else {
-                    ctx.beginPath();
-                    ctx.arc(segment.x * tileSize + tileSize / 2, segment.y * tileSize + tileSize / 2, tileSize / 2, 0, 2 * Math.PI);
-                    ctx.fill();
-                }
-            });
+        if (index === 0) {
+            // Cabeça da cobrinha
+            ctx.beginPath();
+            ctx.arc((segment.x * tileSize) + (tileSize / 2), (segment.y * tileSize) + (tileSize / 2), tileSize / 2, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // Olhos da cobrinha
+            ctx.fillStyle = "#FFFFFF";
+            ctx.beginPath();
+            ctx.arc((segment.x * tileSize) + (tileSize / 3), (segment.y * tileSize) + (tileSize / 3), tileSize / 8, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc((segment.x * tileSize) + (2 * tileSize / 3), (segment.y * tileSize) + (tileSize / 3), tileSize / 8, 0, 2 * Math.PI);
+            ctx.fill();
+        } else {
+            // Corpo da cobrinha
+            ctx.beginPath();
+            ctx.arc((segment.x * tileSize) + (tileSize / 2), (segment.y * tileSize) + (tileSize / 2), tileSize / 2, 0, 2 * Math.PI);
+            ctx.fill();
         }
+    });
+}
 
         function moveSnake() {
             const head = { x: snake[0].x + dx / tileSize, y: snake[0].y + dy / tileSize };
