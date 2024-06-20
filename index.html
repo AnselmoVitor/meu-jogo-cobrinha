@@ -168,11 +168,6 @@
         });
 
         // Controles de Toque
-        const upButton = document.getElementById("up");
-        const downButton = document.getElementById("down");
-        const leftButton = document.getElementById("left");
-        const rightButton = document.getElementById("right");
-
         document.getElementById("left-controls").addEventListener("touchstart", event => {
             const touch = event.touches[0];
             if (touch.clientY < window.innerHeight / 2) {
