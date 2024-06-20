@@ -9,58 +9,72 @@
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden; /* Evita rolagem da página */
         }
         canvas {
             border: 1px solid #000;
         }
+        #controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .control-button {
+            width: 60px;
+            height: 60px;
+            margin: 0 10px;
+            background-color: #ccc;
+            border: 1px solid #888;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-     <h1 style="text-align: center;">Jogo da Cobrinha v1</h1>
+    <h1>Jogo da Cobrinha v1</h1>
     <canvas id="gameCanvas" width="600" height="600"></canvas>
 
+    <div id="controls">
+        <div class="control-button" id="up">&#8593;</div>
+        <div class="control-button" id="left">&#8592;</div>
+        <div class="control-button" id="right">&#8594;</div>
+        <div class="control-button" id="down">&#8595;</div>
+    </div>
+
     <script>
-        // Selecionando o canvas e seu contexto 2D
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
 
-        // Definindo o tamanho do quadrado e a velocidade da cobrinha
         const tileSize = 30;
         let speed = 200; // Milissegundos por movimento (mais lento)
-
-        // Número de quadrados no campo de jogo
         const fieldSize = canvas.width / tileSize;
-
-        // Inicializando a posição inicial da cobrinha e a comida
         let snake = [{ x: 10, y: 10 }];
         let food = { x: 15, y: 15 };
-
-        // Inicializando a direção da cobrinha
         let dx = tileSize;
         let dy = 0;
 
-        // Função para desenhar a cobrinha e a comida
         function drawSnake() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Desenhando a comida
             ctx.fillStyle = "#FF0000";
             ctx.fillRect(food.x * tileSize, food.y * tileSize, tileSize, tileSize);
 
-            // Desenhando a cobrinha
             snake.forEach((segment, index) => {
                 ctx.fillStyle = "#008000";
                 if (index === 0) {
-                    // Cabeça da cobrinha
                     ctx.beginPath();
                     ctx.arc(segment.x * tileSize + tileSize / 2, segment.y * tileSize + tileSize / 2, tileSize / 2, 0, 2 * Math.PI);
                     ctx.fill();
 
-                    // Olhos
                     ctx.fillStyle = "#FFFFFF";
                     ctx.beginPath();
                     ctx.arc(segment.x * tileSize + tileSize / 3, segment.y * tileSize + tileSize / 3, tileSize / 8, 0, 2 * Math.PI);
@@ -69,7 +83,6 @@
                     ctx.arc(segment.x * tileSize + 2 * tileSize / 3, segment.y * tileSize + tileSize / 3, tileSize / 8, 0, 2 * Math.PI);
                     ctx.fill();
                 } else {
-                    // Corpo da cobrinha
                     ctx.beginPath();
                     ctx.arc(segment.x * tileSize + tileSize / 2, segment.y * tileSize + tileSize / 2, tileSize / 2, 0, 2 * Math.PI);
                     ctx.fill();
@@ -77,41 +90,35 @@
             });
         }
 
-        // Função para mover a cobrinha
         function moveSnake() {
             const head = { x: snake[0].x + dx / tileSize, y: snake[0].y + dy / tileSize };
 
-            // Permitir que a cobrinha passe pelas bordas (wrap around)
             if (head.x < 0) head.x = fieldSize - 1;
             if (head.x >= fieldSize) head.x = 0;
             if (head.y < 0) head.y = fieldSize - 1;
             if (head.y >= fieldSize) head.y = 0;
 
-            // Checando colisão com o próprio corpo
             if (snake.some((segment, index) => index !== 0 && segment.x === head.x && segment.y === head.y)) {
                 resetGame();
                 return;
             }
 
-            // Checando se a cobrinha comeu a comida
             if (head.x === food.x && head.y === food.y) {
-                snake.unshift(head); // Adiciona um novo segmento na frente (cresce)
-                generateFood(); // Gera uma nova posição para a comida
+                snake.unshift(head);
+                generateFood();
             } else {
-                snake.pop(); // Remove o último segmento da cobrinha (movimento normal)
-                snake.unshift(head); // Adiciona a nova cabeça da cobrinha
+                snake.pop();
+                snake.unshift(head);
             }
 
             drawSnake();
         }
 
-        // Função para gerar uma nova posição para a comida
         function generateFood() {
             food.x = Math.floor(Math.random() * fieldSize);
             food.y = Math.floor(Math.random() * fieldSize);
         }
 
-        // Função para reiniciar o jogo
         function resetGame() {
             alert("Game Over! Pressione OK para jogar novamente.");
             snake = [{ x: 10, y: 10 }];
@@ -120,9 +127,7 @@
             generateFood();
         }
 
-        // Função para capturar teclas pressionadas
         document.addEventListener("keydown", event => {
-            // Impedir que a cobrinha volte na direção oposta
             if (event.key === "ArrowLeft" && dx === 0) {
                 dx = -tileSize;
                 dy = 0;
@@ -141,13 +146,45 @@
             }
         });
 
-        // Loop principal do jogo
+        // Controles de Toque
+        const upButton = document.getElementById("up");
+        const downButton = document.getElementById("down");
+        const leftButton = document.getElementById("left");
+        const rightButton = document.getElementById("right");
+
+        upButton.addEventListener("click", () => {
+            if (dy === 0) {
+                dx = 0;
+                dy = -tileSize;
+            }
+        });
+
+        downButton.addEventListener("click", () => {
+            if (dy === 0) {
+                dx = 0;
+                dy = tileSize;
+            }
+        });
+
+        leftButton.addEventListener("click", () => {
+            if (dx === 0) {
+                dx = -tileSize;
+                dy = 0;
+            }
+        });
+
+        rightButton.addEventListener("click", () => {
+            if (dx === 0) {
+                dx = tileSize;
+                dy = 0;
+            }
+        });
+
         function gameLoop() {
             moveSnake();
             setTimeout(gameLoop, speed);
         }
 
-        // Iniciando o jogo
         generateFood();
         gameLoop();
     </script>
