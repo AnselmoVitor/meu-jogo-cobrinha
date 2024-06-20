@@ -24,6 +24,8 @@
             justify-content: space-between;
             margin-top: 20px;
             padding: 10px;
+            width: 80%;
+            max-width: 600px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -32,6 +34,7 @@
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
+            width: 50%;
         }
         .control-button {
             width: 60px;
@@ -58,11 +61,11 @@
     <canvas id="gameCanvas" width="600" height="600"></canvas>
 
     <div id="controls">
-        <div class="control-column">
+        <div class="control-column" id="left-controls">
             <div class="control-button" id="up">&#8593;</div>
             <div class="control-button" id="down">&#8595;</div>
         </div>
-        <div class="control-column">
+        <div class="control-column" id="right-controls">
             <div class="control-button" id="left">&#8592;</div>
             <div class="control-button" id="right">&#8594;</div>
         </div>
@@ -170,31 +173,33 @@
         const leftButton = document.getElementById("left");
         const rightButton = document.getElementById("right");
 
-        upButton.addEventListener("touchstart", () => {
-            if (dy === 0) {
-                dx = 0;
-                dy = -tileSize;
+        document.getElementById("left-controls").addEventListener("touchstart", event => {
+            const touch = event.touches[0];
+            if (touch.clientY < window.innerHeight / 2) {
+                if (dy === 0) {
+                    dx = 0;
+                    dy = -tileSize;
+                }
+            } else {
+                if (dy === 0) {
+                    dx = 0;
+                    dy = tileSize;
+                }
             }
         });
 
-        downButton.addEventListener("touchstart", () => {
-            if (dy === 0) {
-                dx = 0;
-                dy = tileSize;
-            }
-        });
-
-        leftButton.addEventListener("touchstart", () => {
-            if (dx === 0) {
-                dx = -tileSize;
-                dy = 0;
-            }
-        });
-
-        rightButton.addEventListener("touchstart", () => {
-            if (dx === 0) {
-                dx = tileSize;
-                dy = 0;
+        document.getElementById("right-controls").addEventListener("touchstart", event => {
+            const touch = event.touches[0];
+            if (touch.clientY < window.innerHeight / 2) {
+                if (dx === 0) {
+                    dx = -tileSize;
+                    dy = 0;
+                }
+            } else {
+                if (dx === 0) {
+                    dx = tileSize;
+                    dy = 0;
+                }
             }
         });
 
