@@ -21,17 +21,22 @@
         }
         #controls {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             margin-top: 20px;
-            background-color: #ccc;
             padding: 10px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+        .control-column {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
         .control-button {
             width: 60px;
             height: 60px;
-            margin: 0 10px;
+            margin: 5px;
             background-color: #f0f0f0;
             border: 1px solid #888;
             border-radius: 50%;
@@ -53,12 +58,14 @@
     <canvas id="gameCanvas" width="600" height="600"></canvas>
 
     <div id="controls">
-        <div class="control-button" id="up">&#8593;</div>
-        <div>
+        <div class="control-column">
+            <div class="control-button" id="up">&#8593;</div>
+            <div class="control-button" id="down">&#8595;</div>
+        </div>
+        <div class="control-column">
             <div class="control-button" id="left">&#8592;</div>
             <div class="control-button" id="right">&#8594;</div>
         </div>
-        <div class="control-button" id="down">&#8595;</div>
     </div>
 
     <script>
