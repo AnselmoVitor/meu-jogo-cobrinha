@@ -23,19 +23,28 @@
             display: flex;
             justify-content: center;
             margin-top: 20px;
+            background-color: #ccc;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .control-button {
             width: 60px;
             height: 60px;
             margin: 0 10px;
-            background-color: #ccc;
+            background-color: #f0f0f0;
             border: 1px solid #888;
-            border-radius: 5px;
+            border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 20px;
+            font-size: 25px;
             cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+        .control-button:hover {
+            background-color: #e0e0e0;
         }
     </style>
 </head>
@@ -45,8 +54,10 @@
 
     <div id="controls">
         <div class="control-button" id="up">&#8593;</div>
-        <div class="control-button" id="left">&#8592;</div>
-        <div class="control-button" id="right">&#8594;</div>
+        <div>
+            <div class="control-button" id="left">&#8592;</div>
+            <div class="control-button" id="right">&#8594;</div>
+        </div>
         <div class="control-button" id="down">&#8595;</div>
     </div>
 
@@ -152,28 +163,28 @@
         const leftButton = document.getElementById("left");
         const rightButton = document.getElementById("right");
 
-        upButton.addEventListener("click", () => {
+        upButton.addEventListener("touchstart", () => {
             if (dy === 0) {
                 dx = 0;
                 dy = -tileSize;
             }
         });
 
-        downButton.addEventListener("click", () => {
+        downButton.addEventListener("touchstart", () => {
             if (dy === 0) {
                 dx = 0;
                 dy = tileSize;
             }
         });
 
-        leftButton.addEventListener("click", () => {
+        leftButton.addEventListener("touchstart", () => {
             if (dx === 0) {
                 dx = -tileSize;
                 dy = 0;
             }
         });
 
-        rightButton.addEventListener("click", () => {
+        rightButton.addEventListener("touchstart", () => {
             if (dx === 0) {
                 dx = tileSize;
                 dy = 0;
