@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background: linear-gradient(135deg, #4f86c6, #f7a885);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -16,8 +16,17 @@
             margin: 0;
             overflow: hidden; /* Evita rolagem da página */
         }
+        h1 {
+            font-size: 2.5rem;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
         canvas {
             border: 1px solid #000;
+            background-color: #f8f8f8; /* Cor de fundo para o quadro do jogo */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
         #controls {
             display: flex;
@@ -28,6 +37,7 @@
             max-width: 600px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff; /* Cor de fundo para os controles */
         }
         .control-column {
             display: flex;
@@ -135,76 +145,4 @@
             drawSnake();
         }
 
-        function generateFood() {
-            food.x = Math.floor(Math.random() * fieldSize);
-            food.y = Math.floor(Math.random() * fieldSize);
-        }
-
-        function resetGame() {
-            alert("Game Over! Pressione OK para jogar novamente.");
-            snake = [{ x: 10, y: 10 }];
-            dx = tileSize;
-            dy = 0;
-            generateFood();
-        }
-
-        document.addEventListener("keydown", event => {
-            if (event.key === "ArrowLeft" && dx === 0) {
-                dx = -tileSize;
-                dy = 0;
-            }
-            if (event.key === "ArrowRight" && dx === 0) {
-                dx = tileSize;
-                dy = 0;
-            }
-            if (event.key === "ArrowUp" && dy === 0) {
-                dx = 0;
-                dy = -tileSize;
-            }
-            if (event.key === "ArrowDown" && dy === 0) {
-                dx = 0;
-                dy = tileSize;
-            }
-        });
-
-        // Controles de Toque
-        document.getElementById("left-controls").addEventListener("touchstart", event => {
-            const touch = event.touches[0];
-            if (touch.clientY < window.innerHeight / 2) {
-                if (dy === 0) {
-                    dx = 0;
-                    dy = -tileSize;
-                }
-            } else {
-                if (dy === 0) {
-                    dx = 0;
-                    dy = tileSize;
-                }
-            }
-        });
-
-        document.getElementById("right-controls").addEventListener("touchstart", event => {
-            const touch = event.touches[0];
-            if (touch.clientY < window.innerHeight / 2) {
-                if (dx === 0) {
-                    dx = -tileSize;
-                    dy = 0;
-                }
-            } else {
-                if (dx === 0) {
-                    dx = tileSize;
-                    dy = 0;
-                }
-            }
-        });
-
-        function gameLoop() {
-            moveSnake();
-            setTimeout(gameLoop, speed);
-        }
-
-        generateFood();
-        gameLoop();
-    </script>
-</body>
-</html>
+        function generateFood()
